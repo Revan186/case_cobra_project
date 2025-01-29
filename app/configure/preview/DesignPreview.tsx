@@ -106,8 +106,8 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 		},
 	})
 
-	localStorage.setItem('totalPrice', JSON.stringify(totalPrice));
-	localStorage.setItem('configuration', JSON.stringify(configuration));
+	sessionStorage.setItem('totalPrice', JSON.stringify(totalPrice));
+	sessionStorage.setItem('configuration', JSON.stringify(configuration));
 	localStorage.setItem('configurationId', id)
 
 	const handleCheckout = async () => {

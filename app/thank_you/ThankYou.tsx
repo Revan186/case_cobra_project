@@ -28,9 +28,12 @@ const ThankYou = () => {
 
  
   useEffect(()=>{
-    const retrievedAmount = JSON.parse(localStorage.getItem('totalPrice'));
+
+		//@ts-ignore
+    const retrievedAmount = JSON.parse(sessionStorage.getItem('totalPrice'));
        
-    const retrievedConf = JSON.parse(localStorage.getItem('configuration'));
+		//@ts-ignore
+    const retrievedConf = JSON.parse(sessionStorage.getItem('configuration'));
       
 
     setAmount(retrievedAmount);
@@ -47,7 +50,7 @@ const ThankYou = () => {
       react: OrderReceivedEmail({
         orderId: 56738927464
        
-        // @ts-ignore
+        
       
       }),
     })
