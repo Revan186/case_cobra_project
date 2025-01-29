@@ -110,7 +110,6 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 	const handleCheckout = async () => {
 		
 			if (user) {
-
         const data = await 
         createCheckoutSession({
           configId: configuration.
@@ -122,7 +121,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 			 // need to log in
 			 //localStorage.setItem('configurationId', id)
 			 setIsLoginModalOpen(true)
-	}
+	}}
 
 	return (
 		<>
