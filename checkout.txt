@@ -1,0 +1,10 @@
+ if (user) {
+
+        const data = await 
+        createCheckoutSession({
+          configId: configuration.
+          id,
+        })
+        console.log(data)
+        router.push(`${data}`)
+    //} else {

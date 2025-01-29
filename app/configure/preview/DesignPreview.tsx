@@ -39,7 +39,7 @@ import Phone from '@/components/Phone'
 import { Button } from '@/components/ui/button'
 import { BASE_PRICE, PRODUCT_PRICES } from '@/config/products'
 import { cn, formatPrice } from '@/lib/utils'
-import { COLORS, FINISHES, MODELS } from '@/validators/option-validator'
+import { COLORS, MODELS } from '@/validators/option-validator'
 import { Configuration } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import { ArrowRight, Check } from 'lucide-react'
@@ -48,16 +48,12 @@ import Confetti from 'react-dom-confetti'
 
 import { useRouter } from 'next/navigation'
 
+import LoginModal from '@/components/LoginModal'
+import { useToast } from '@/hooks/use-toast'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { createCheckoutSession } from './actions'
-import { useToast } from '@/hooks/use-toast'
-import LoginModal from '@/components/LoginModal'
-import useConfStore from '@/store/conf.store'
-import useAmountStore from '@/store/amount.store'
-
 
 const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
-	
 	const router = useRouter()
 	const { toast } = useToast()
 
@@ -65,7 +61,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 	const { user } = useKindeBrowserClient()
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false)
 
-	console.log('userrrrrrrrrrrrrrrr ' +user)
+	console.log('userrrrrrrrrrrrrrrr ' + user)
 
 	const [showConfetti, setShowConfetti] = useState<boolean>(false)
 	useEffect(() => setShowConfetti(true))
@@ -83,7 +79,6 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 		totalPrice += PRODUCT_PRICES.material.polycarbonate
 	if (finish === 'textured') totalPrice += PRODUCT_PRICES.finish.textured
 
-	
 	//const fullPrice = totalPrice.toString()
 
 	//const {totalAmount} = useConfStore()
@@ -108,22 +103,29 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 		},
 	})
 
-	sessionStorage.setItem('totalPrice', JSON.stringify(totalPrice));
-	sessionStorage.setItem('configuration', JSON.stringify(configuration));
+	sessionStorage.setItem('totalPrice', JSON.stringify(totalPrice))
+	sessionStorage.setItem('configuration', JSON.stringify(configuration))
 	localStorage.setItem('configurationId', id)
 
 	const handleCheckout = async () => {
-	//	if (user) {
+		try {
+			const data = await createCheckoutSession({
+				configId: configuration.id,
+			})
 
-        const data = await createCheckoutSession({
-          configId: configuration.id,
-        })
-        console.log(data)
-        router.push(`${data}`)
-		//} else {
-		 
-      //setIsLoginModalOpen(true)
-		//}
+			if (!data) {
+				throw new Error('Failed to create checkout session')
+			}
+
+			router.push(data.toString())
+		} catch (error) {
+			console.error('Checkout error:', error)
+			toast({
+				title: 'Checkout Error',
+				description: 'Unable to proceed with checkout. Please try again.',
+				variant: 'destructive',
+			})
+		}
 	}
 
 	return (
@@ -138,7 +140,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 				/>
 			</div>
 
-      <LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen} />
+			<LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen} />
 
 			<div className='mt-20 flex flex-col items-center md:grid text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12'>
 				<div className='md:col-span-4 lg:col-span-3 md:row-span-2 md:row-end-2'>
@@ -222,7 +224,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 								//disabled={true}
 								//isLoading={true}
 								loadingText='loading'
-								onClick={()=>handleCheckout()}
+								onClick={() => handleCheckout()}
 								className='px-4 sm:px-6 lg:px-8'
 							>
 								Check out <ArrowRight className='h-4 w-4 ml-1.5 inline' />
