@@ -40,16 +40,15 @@ const OrderReceivedEmail = ({
             />
             <Heading style={global.heading}>Thank you for your order!</Heading>
             <Text style={global.text}>
-              We're preparing everything for delivery and will notify you once
+              We&apos;re preparing everything for delivery and will notify you once
               your package has been shipped. Delivery usually takes 2 days.
             </Text>
             <Text style={{ ...global.text, marginTop: 24 }}>
               If you have any questions regarding your order, please feel free
-              to contact us with your order number and we're here to help.
+              to contact us with your order number and we&apos;re here to help.
             </Text>
           </Section>
           <Hr style={global.hr} />
-  
           <Hr style={global.hr} />
           <Section style={global.defaultPadding}>
             <Row style={{ display: 'inline-flex gap-16', marginBottom: 40 }}>
@@ -72,7 +71,7 @@ const OrderReceivedEmail = ({
                   paddingBottom: 30,
                 }}>
                 Please contact us if you have any questions. (If you reply to
-                this email, we won't be able to see it.)
+                this email, we won&apos;t be able to see it.)
               </Text>
             </Row>
             <Row>
