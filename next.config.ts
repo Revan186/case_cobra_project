@@ -4,11 +4,11 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/api/auth/[kindeAuth]",
+        source: "/api/*",
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: "https://case-cobra-official.vercel.app", // Set your origin
+            value: "*", // Set your origin
           },
           {
             key: "Access-Control-Allow-Methods",
@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Access-Control-Allow-Headers",
-            value: "next-router-prefetch",
+            value: "*",
           },
         ],
       },
