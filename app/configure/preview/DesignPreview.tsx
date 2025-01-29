@@ -108,20 +108,38 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 	localStorage.setItem('configurationId', id)
 
 	const handleCheckout = async () => {
-		
-			if (user) {
-        const data = await 
-        createCheckoutSession({
-          configId: configuration.
-          id,
-        })
-        console.log(data)
-        router.push(`${data}`)
-    } else {
-			 // need to log in
-			 //localStorage.setItem('configurationId', id)
-			 setIsLoginModalOpen(true)
-	}}
+		if (!user) {
+			setIsLoginModalOpen(true)
+			return
+		}
+
+		try {
+			const response = await createCheckoutSession({
+				configId: configuration.id,
+			})
+
+			// Parse the response to get the URL
+			const data = await response.json()
+
+			if (data.url) {
+				// Directly redirect to Stripe's checkout URL
+				window.location.href = data.url
+			} else {
+				toast({
+					title: 'Error',
+					description: 'Invalid checkout URL received',
+					variant: 'destructive',
+				})
+			}
+		} catch (error) {
+			console.error('Checkout error:', error)
+			toast({
+				title: 'Checkout Error',
+				description: 'Failed to initiate checkout. Please try again.',
+				variant: 'destructive',
+			})
+		}
+	}
 
 	return (
 		<>
