@@ -113,17 +113,17 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 	localStorage.setItem('configurationId', id)
 
 	const handleCheckout = async () => {
-		if (user) {
+	//	if (user) {
 
         const data = await createCheckoutSession({
           configId: configuration.id,
         })
         console.log(data)
         router.push(`${data}`)
-		} else {
+		//} else {
 		 
-      setIsLoginModalOpen(true)
-		}
+      //setIsLoginModalOpen(true)
+		//}
 	}
 
 	return (
