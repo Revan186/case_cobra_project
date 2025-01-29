@@ -58,7 +58,8 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 	const { toast } = useToast()
 
 	const { id } = configuration
-	const { user } = useKindeBrowserClient()
+	const { getUser } = getKindeServerSession()
+		const user = await getUser()
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false)
 
 	console.log('userrrrrrrrrrrrrrrr ' + user)
@@ -114,23 +115,13 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 		}
 
 		try {
-			const response = await createCheckoutSession({
-				configId: configuration.id,
-			})
-
-			// Parse the response to get the URL
-			const data = await response.json()
-
-			if (data.url) {
-				// Directly redirect to Stripe's checkout URL
-				window.location.href = data.url
-			} else {
-				toast({
-					title: 'Error',
-					description: 'Invalid checkout URL received',
-					variant: 'destructive',
-				})
-			}
+			const data = await 
+        createCheckoutSession({
+          configId: configuration.
+          id,
+        })
+        console.log(data)
+        router.push(`${data}`)
 		} catch (error) {
 			console.error('Checkout error:', error)
 			toast({
