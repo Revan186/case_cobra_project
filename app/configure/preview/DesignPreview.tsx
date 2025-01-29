@@ -58,8 +58,8 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 	const { toast } = useToast()
 
 	const { id } = configuration
-	const { getUser } = getKindeServerSession()
-		const user = await getUser()
+	const { user } = useKindeBrowserClient()
+		
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false)
 
 	console.log('userrrrrrrrrrrrrrrr ' + user)
@@ -109,27 +109,29 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 	localStorage.setItem('configurationId', id)
 
 	const handleCheckout = async () => {
-		if (!user) {
-			setIsLoginModalOpen(true)
-			return
-		}
+		// if (!user) {
+		// 	setIsLoginModalOpen(true)
+		// 	return
+		// }
 
-		try {
-			const data = await 
-        createCheckoutSession({
-          configId: configuration.
-          id,
-        })
-        console.log(data)
-        router.push(`${data}`)
-		} catch (error) {
-			console.error('Checkout error:', error)
-			toast({
-				title: 'Checkout Error',
-				description: 'Failed to initiate checkout. Please try again.',
-				variant: 'destructive',
-			})
-		}
+		// try {
+		// 	const data = await 
+    //     createCheckoutSession({
+    //       configId: configuration.
+    //       id,
+    //     })
+    //     console.log(data)
+    //     router.push(`${data}`)
+		// } catch (error) {
+		// 	console.error('Checkout error:', error)
+		// 	toast({
+		// 		title: 'Checkout Error',
+		// 		description: 'Failed to initiate checkout. Please try again.',
+		// 		variant: 'destructive',
+		// 	})
+		// }
+
+		router.push(`/thank_you`)
 	}
 
 	return (
