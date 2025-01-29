@@ -1,9 +1,17 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+	async rewrites() {
+    return [
+      {
+        source: '/about',
+        destination: '/',
+      },
+    ]
+  },
 	images: {
-		domains: ["utfs.io"],
-		
+		domains: ["ufs.sh", "utfs.io", 'f83u96zfqk.ufs.sh'],
+		deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
 	},
 	reactStrictMode: false,
 	typescript: {

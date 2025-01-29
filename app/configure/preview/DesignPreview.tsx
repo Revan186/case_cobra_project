@@ -65,6 +65,8 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 	const { user } = useKindeBrowserClient()
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false)
 
+	console.log('userrrrrrrrrrrrrrrr ' +user)
+
 	const [showConfetti, setShowConfetti] = useState<boolean>(false)
 	useEffect(() => setShowConfetti(true))
 
@@ -119,7 +121,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
         console.log(data)
         router.push(`${data}`)
 		} else {
-		
+		 
       setIsLoginModalOpen(true)
 		}
 	}
