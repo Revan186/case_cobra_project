@@ -108,38 +108,20 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 	localStorage.setItem('configurationId', id)
 
 	const handleCheckout = async () => {
-		try {
-			const data = await createCheckoutSession({
-				configId: configuration.id,
-			})
+		
+			if (user) {
 
-			// Parse the response if it's a JSON string
-			let checkoutUrl
-			try {
-				const parsedData = typeof data === 'string' ? JSON.parse(data) : data
-				checkoutUrl = parsedData.url || parsedData
-			} catch {
-				checkoutUrl = data
-			}
-
-			if (!checkoutUrl) {
-				throw new Error('Failed to create checkout session')
-			}
-
-			// Ensure we have a valid URL before redirecting
-			if (typeof checkoutUrl === 'string' && checkoutUrl.startsWith('http')) {
-				router.push(checkoutUrl)
-			} else {
-				throw new Error('Invalid checkout URL received')
-			}
-		} catch (error) {
-			console.error('Checkout error:', error)
-			toast({
-				title: 'Checkout Error',
-				description: 'Unable to proceed with checkout. Please try again.',
-				variant: 'destructive',
-			})
-		}
+        const data = await 
+        createCheckoutSession({
+          configId: configuration.
+          id,
+        })
+        console.log(data)
+        router.push(`${data}`)
+    } else {
+			 // need to log in
+			 //localStorage.setItem('configurationId', id)
+			 setIsLoginModalOpen(true)
 	}
 
 	return (
