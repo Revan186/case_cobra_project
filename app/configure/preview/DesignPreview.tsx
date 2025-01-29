@@ -113,11 +113,25 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 				configId: configuration.id,
 			})
 
-			if (!data) {
+			// Parse the response if it's a JSON string
+			let checkoutUrl
+			try {
+				const parsedData = typeof data === 'string' ? JSON.parse(data) : data
+				checkoutUrl = parsedData.url || parsedData
+			} catch {
+				checkoutUrl = data
+			}
+
+			if (!checkoutUrl) {
 				throw new Error('Failed to create checkout session')
 			}
 
-			router.push(data.toString())
+			// Ensure we have a valid URL before redirecting
+			if (typeof checkoutUrl === 'string' && checkoutUrl.startsWith('http')) {
+				router.push(checkoutUrl)
+			} else {
+				throw new Error('Invalid checkout URL received')
+			}
 		} catch (error) {
 			console.error('Checkout error:', error)
 			toast({
